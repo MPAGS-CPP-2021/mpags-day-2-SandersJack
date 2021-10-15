@@ -5,6 +5,14 @@
 
 std::string runCaesarCipher(const std::string& inputText,
                             const size_t key, const bool encrypt) 
+    /*Function to carryout the Caesar Cipher
+
+    const std::string& inputText: Input text to be printed
+    const size_t key: Desired encryption key
+    onst bool encrypt: Bool for encryption or decryption
+
+    return outStr: String containing the Ciphered text
+    */
 {
     char inputChar{'z'};
     std::string outStr;
@@ -24,8 +32,8 @@ std::string runCaesarCipher(const std::string& inputText,
         inputChar = 'z';
     }  
     for (std::string::size_type i{0}; i<inputText.size(); i++) {
-        inputChar = inputText[i];
-        init_pos = revalpha[inputChar];
+        inputChar = inputText[i]; 
+        init_pos = revalpha[inputChar]; //Finding the corisponding number 
         if (encrypt) {
             fin_pos = init_pos+key;
         } else {

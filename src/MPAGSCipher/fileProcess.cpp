@@ -7,6 +7,12 @@
 
 
 std::string InputfileProcess(const std::string inputFileName) {
+    /* Function to take either keyboard inpus or text file 
+
+    const std::string inputFileName: Input file name
+
+    return inputText: String of converted text to uppercase
+    */
     std::string inputText;
     
     char inputChar{'x'};
@@ -42,6 +48,13 @@ std::string InputfileProcess(const std::string inputFileName) {
     
 }
 bool OutputfileProcess(const std::string outputFileName, const std::string inputText) {
+    /* Function to output wither to terminl or output text file 
+
+    const std::string outputFileName: Output file name
+    onst std::string inputText: Text to be printed
+
+    return inputText: String of converted text to uppercase
+    */
     // Output file
     if (!outputFileName.empty()){
         std::cout << "Saving output to file:" << outputFileName << std::endl;

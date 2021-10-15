@@ -62,7 +62,7 @@ bool processCommandLine(const std::vector<std::string>& args, bool& helpRequeste
                 // exit main with non-zero return to indicate failure
                 return 1;
             } else {
-                // Got filename, so assign value and advance past it
+                // Got key value, so assign value and advance past it
                 key = std::stoi(args[i + 1]);
                 ++i;
             }
