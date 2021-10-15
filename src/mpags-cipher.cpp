@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include "TransformChar.hpp"
 
@@ -107,31 +108,48 @@ int main(int argc, char* argv[])
         return 0;
     }
 
+
     // Initialise variables
-    char inputChar{'x'};
     std::string inputText;
+    char inputChar{'x'};
 
-    // Read in user input from stdin/file
-    // Warn that input file option not yet implemented
     if (!inputFile.empty()) {
-        std::cerr << "[warning] input from file ('" << inputFile
-                  << "') not implemented yet, using stdin\n";
+        std::string inputString{'i'};
+        std::ifstream in_file {inputFile};
+        bool in_file_good = in_file.good();
+
+        if (in_file_good) {
+            in_file >> inputString;
+        } else {
+            std::cerr << "Error in opening file" << std::endl;
+            return 1;
+        }
+        std::cout << inputString << std::endl;
+        for (std::string::size_type i; i<inputString.size();i++) {
+            inputChar = inputString[i];
+            inputText += transformChar(inputChar);
+        }
+        in_file.close();
+    } else {
+        std::cout << "Using Input from keyboard" << std::endl;
+        // loop over each character from user input
+        while (std::cin >> inputChar) {
+            inputText += transformChar(inputChar);
+        }
+        }
+    if (!outputFile.empty()){
+        std::cout << "Saving output to file:" << outputFile << std::endl;
+        std::ofstream out_file {outputFile};
+        bool out_file_good = out_file.good();
+        if (out_file_good) {
+            out_file << inputText;
+        } else {
+            std::cerr << "Error in saving file" << std::endl;
+        }
+    } else {
+        std::cout << inputText << std::endl;
     }
-
-    // loop over each character from user input
-    while (std::cin >> inputChar) {
-        inputText += transformChar(inputChar);
-    }
-
-    // Print out the transliterated text
-
-    // Warn that output file option not yet implemented
-    if (!outputFile.empty()) {
-        std::cerr << "[warning] output to file ('" << outputFile
-                  << "') not implemented yet, using stdout\n";
-    }
-
-    std::cout << inputText << std::endl;
+    
 
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions
