@@ -3,6 +3,7 @@
 
 #include <string>
 
-bool fileProcess(const std::string inputFileName, const std::string outputFileName);
+std::string InputfileProcess(const std::string inputFileName);
+bool OutputfileProcess(const std::string outputFileName, const std::string inputText);
 
 #endif

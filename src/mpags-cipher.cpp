@@ -4,11 +4,14 @@
 #include <vector>
 #include <fstream>
 
+#include "runCaesarCipher.hpp"
 #include "fileProcess.hpp"
+
+//#include "runCaesarCipher.hpp"
 
 bool processCommandLine(const std::vector<std::string>& args, bool& helpRequested,
                         bool& versionRequested,
-                        std::string& inputFileName, std::string& outputFileName) {
+                        std::string& inputFileName, std::string& outputFileName,int& key, bool& encrypt) {
     /* Function to interpret command line arguments 
 
     const std::vector<std::string>& args: Command line arguements
@@ -52,6 +55,23 @@ bool processCommandLine(const std::vector<std::string>& args, bool& helpRequeste
                 outputFileName = args[i + 1];
                 ++i;
             }
+        } else if (args[i] == "-k") {
+            if (i == nCmdLineArgs - 1) {
+                std::cerr << "[error] -k requires a key number"
+                          << std::endl;
+                // exit main with non-zero return to indicate failure
+                return 1;
+            } else {
+                // Got filename, so assign value and advance past it
+                key = std::stoi(args[i + 1]);
+                ++i;
+            }
+        } else if (args[i] == "-e") {
+                encrypt = true;
+                ++i;
+        } else if (args[i] == "-d") {
+                encrypt = false;
+                ++i;
         } else {
             // Have an unknown flag to output error message and return non-zero
             // exit status to indicate failure
@@ -73,13 +93,14 @@ int main(int argc, char* argv[])
     // Options that might be set by the command-line arguments
     bool helpRequested{false};
     bool versionRequested{false};
+    bool encrypt{true};
     std::string inputFile{""};
     std::string outputFile{""};
-
+    int key{5};
     // Process command line arguments - ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
     
-    processCommandLine(cmdLineArgs,helpRequested,versionRequested,inputFile,outputFile);
+    processCommandLine(cmdLineArgs,helpRequested,versionRequested,inputFile,outputFile,key,encrypt);
 
     // Handle help, if requested
     if (helpRequested) {
@@ -94,6 +115,12 @@ int main(int argc, char* argv[])
             << "                   Stdin will be used if not supplied\n\n"
             << "  -o FILE          Write processed text to FILE\n"
             << "                   Stdout will be used if not supplied\n\n"
+            << "  -k INT           Desired key for encryption\n"
+            << "                   5 will be used if not supplied\n\n"
+            << "  -d               Use at end, uses decrypt mode\n"
+            << "                   Encrypt mode will be used if not supplied\n\n"
+            << "  -e               Use at end, uses encrypt mode\n"
+            << "                   Encrypt mode will be used if not supplied\n\n"
             << std::endl;
         // Help requires no further action, so return from main
         // with 0 used to indicate success
@@ -109,7 +136,9 @@ int main(int argc, char* argv[])
     }
 
     //Process the files, cipher them and then output
-    fileProcess(inputFile, outputFile);
+    std::string InputText{InputfileProcess(inputFile)};
+    InputText = runCaesarCipher(InputText, key, encrypt);
+    OutputfileProcess(outputFile,InputText);
 
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions

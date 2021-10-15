@@ -6,10 +6,12 @@
 #include "TransformChar.hpp"
 
 
-bool fileProcess(const std::string inputFileName, const std::string outputFileName) {
+std::string InputfileProcess(const std::string inputFileName) {
     std::string inputText;
+    
     char inputChar{'x'};
 
+    //Input File
     if (!inputFileName.empty()) {
         std::string inputString{'i'};
         std::ifstream in_file {inputFileName};
@@ -19,7 +21,6 @@ bool fileProcess(const std::string inputFileName, const std::string outputFileNa
             in_file >> inputString;
         } else {
             std::cerr << "Error in opening file" << std::endl;
-            return 1;
         }
         //std::cout << inputString << std::endl;
         //std::cout << inputString.size() << std::endl;
@@ -37,6 +38,11 @@ bool fileProcess(const std::string inputFileName, const std::string outputFileNa
             //std::cout << inputText << std::endl;
         }
         }
+    return inputText;
+    
+}
+bool OutputfileProcess(const std::string outputFileName, const std::string inputText) {
+    // Output file
     if (!outputFileName.empty()){
         std::cout << "Saving output to file:" << outputFileName << std::endl;
         std::ofstream out_file {outputFileName};
