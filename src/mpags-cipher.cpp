@@ -57,6 +57,17 @@ std::string transformChar(const char in_char) {
 bool processCommandLine(const std::vector<std::string>& args, bool& helpRequested,
                         bool& versionRequested,
                         std::string& inputFileName, std::string& outputFileName) {
+    /* Function to interpret command line arguments 
+
+    const std::vector<std::string>& args: Command line arguements
+    bool& helpRequested: Is help requested bool
+    bool& versionRequested: Is version requested bool
+    std::string& inputFileName: Inputfile name String
+    std::string& outputFileName: Output file name String
+
+    return: helpRequested, versionRequested
+    */
+
     const std::size_t nCmdLineArgs{args.size()};
     for (std::size_t i{1}; i < nCmdLineArgs; ++i) {
         if (args[i] == "-h" || args[i] == "--help") {
@@ -116,8 +127,8 @@ int main(int argc, char* argv[])
     // Process command line arguments - ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
     
-    helpRequested,versionRequested = processCommandLine(cmdLineArgs,helpRequested,versionRequested,inputFile,outputFile);
-    
+    helpRequested, versionRequested = processCommandLine(cmdLineArgs,helpRequested,versionRequested,inputFile,outputFile);
+
     // Handle help, if requested
     if (helpRequested) {
         // Line splitting for readability
